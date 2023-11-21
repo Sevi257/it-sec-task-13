@@ -59,6 +59,7 @@ class EncryptedSession(SessionInterface):
         # There is an active session. Check its integrity and use it.
         try:
             print("tries at least")
+            print("Session: ", session)
             data = bytes.fromhex(session)
             mac, session_data = data[:MAC_SIZE], data[MAC_SIZE:]
             mac_p = mh5(SECRET_KEY + session_data)
