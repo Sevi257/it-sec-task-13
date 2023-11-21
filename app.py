@@ -82,8 +82,8 @@ class EncryptedSession(SessionInterface):
         """
         print("Calls save_session")
         session_json = json.dumps(session) # This will be: '{"u": "tester"}' for the page below
-        print(json.dumps(session))
-        print(SECRET_KEY)
+        print("Dump: ", json.dumps(session))
+        print("Secret: ", SECRET_KEY)
         session_json = session_json.encode()
         mac = mh5(SECRET_KEY + session_json)
         data = mac.hex() + session_json.hex()
