@@ -19,6 +19,8 @@ def mh5(x):
         state &= (2 ** 32 - 1)
     return state.to_bytes(length=MAC_SIZE, byteorder="big")
 
+
+
 # URL of the target server
 url = "https://t13.itsec.sec.in.tum.de/950357d650d4fa78"
 

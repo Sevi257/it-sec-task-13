@@ -8,6 +8,7 @@ import os
 from flask.sessions import SessionInterface, SessionMixin
 
 try:
+
     from scoreboard_util import verify_code
 except ImportError:
     print("verify_code not available!")
