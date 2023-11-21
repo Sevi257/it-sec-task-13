@@ -27,7 +27,7 @@ url = "http://127.0.0.1:5000"
 with requests.Session() as session:
     r = session.get(url)
     original_cookie = session.cookies[COOKIE]
-    secret_key = bytes(original_cookie[:8].encode())
+    '''secret_key = bytes(original_cookie[:8].encode())
     test = '{"u": "admin"}'.encode()
     mac = mh5(secret_key + test)
     final = mac.hex() + test.hex()
@@ -40,13 +40,12 @@ with requests.Session() as session:
         print("Failure")
         print(f"Integrity check failed {mac} {mac_p}")
     print(final)
-    session.cookies.pop(COOKIE)
     session.cookies.set(name=COOKIE, value=final, domain="http://127.0.0.1:5000")
     print(f'Values: {session.cookies.values()} and Keys: {session.cookies.keys()}')
     # 71a15f407b2275223a2022746573746572227d
     # 71a15f407b2275223a2022746573746572227d
     # Der Session cookie encoded tester also muss ich admin encoden mit MH5
     #
-    # Step 4: Make a request with the modified cookie
+    # Step 4: Make a request with the modified cookie'''
     r = session.get(url)
     print(r.text)
