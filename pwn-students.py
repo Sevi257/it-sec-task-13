@@ -41,6 +41,7 @@ with requests.Session() as session:
         print(f"Integrity check failed {mac} {mac_p}")
     print(final)
     session.cookies.set(name=COOKIE, value=final, domain="http://127.0.0.1:5000")
+    print(f'Values: {session.cookies.values()} and Keys: {session.cookies.keys()}')
     # 71a15f407b2275223a2022746573746572227d
     # 71a15f407b2275223a2022746573746572227d
     # Der Session cookie encoded tester also muss ich admin encoden mit MH5

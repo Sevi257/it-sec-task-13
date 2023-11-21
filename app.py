@@ -124,7 +124,7 @@ def index(code):
         print("No verify codee")
         return redirect("/")
 
-    print(session["u"])
+    print("Session: ", session["u"])
     if "u" not in session:
         print("Tester")
         session["u"] = "tester"
