@@ -67,7 +67,7 @@ class EncryptedSession(SessionInterface):
                 print(f"Integrity check failed {mac} {mac_p}")
                 return Session()
             session_data = json.loads(session_data)
-            print("Returns Session data")
+            print("Returns Session data", session_data)
             return Session(session_data)
         except:
             print("Excepiton")
