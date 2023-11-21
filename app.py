@@ -66,6 +66,7 @@ class EncryptedSession(SessionInterface):
                 print(f"Integrity check failed {mac} {mac_p}")
                 return Session()
             session_data = json.loads(session_data)
+            print("Returns Session data")
             return Session(session_data)
         except:
             print("Excepiton")
@@ -81,6 +82,8 @@ class EncryptedSession(SessionInterface):
         """
         print("Calls save_session")
         session_json = json.dumps(session) # This will be: '{"u": "tester"}' for the page below
+        print(json.dumps(session))
+        print(SECRET_KEY)
         session_json = session_json.encode()
         mac = mh5(SECRET_KEY + session_json)
         data = mac.hex() + session_json.hex()
