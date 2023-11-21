@@ -61,6 +61,7 @@ class EncryptedSession(SessionInterface):
             print("tries at least")
             print("Session: ", session)
             data = bytes.fromhex(session)
+            print("data: ", data)
             mac, session_data = data[:MAC_SIZE], data[MAC_SIZE:]
             mac_p = mh5(SECRET_KEY + session_data)
             if not mac == mac_p:
