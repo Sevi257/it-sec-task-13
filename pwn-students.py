@@ -22,7 +22,7 @@ def mh5(x):
 
 
 # URL of the target server
-url = "https://t13.itsec.sec.in.tum.de/950357d650d4fa78"
+url = "http://127.0.0.1:5000"
 
 with requests.Session() as session:
     r = session.get(url)
@@ -40,7 +40,7 @@ with requests.Session() as session:
         print("Failure")
         print(f"Integrity check failed {mac} {mac_p}")
     print(final)
-    session.cookies.set(name=COOKIE, value=final, domain="t13.itsec.sec.in.tum.de")
+    session.cookies.set(name=COOKIE, value=final, domain="http://127.0.0.1:5000")
     # 71a15f407b2275223a2022746573746572227d
     # 71a15f407b2275223a2022746573746572227d
     # Der Session cookie encoded tester also muss ich admin encoden mit MH5

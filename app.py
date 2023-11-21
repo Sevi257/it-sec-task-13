@@ -52,11 +52,13 @@ class EncryptedSession(SessionInterface):
         """
         session = request.cookies.get("session")
         if not session:
+            print("Return session")
             # There is no active session, lets create one
             return Session()
 
         # There is an active session. Check its integrity and use it.
         try:
+            print("tries at least")
             data = bytes.fromhex(session)
             mac, session_data = data[:MAC_SIZE], data[MAC_SIZE:]
             mac_p = mh5(SECRET_KEY + session_data)
@@ -66,6 +68,7 @@ class EncryptedSession(SessionInterface):
             session_data = json.loads(session_data)
             return Session(session_data)
         except:
+            print("Excepiton")
             # Some debugging info for your admins. You cannot see them client-side
             import traceback
             traceback.print_exc()
@@ -76,6 +79,7 @@ class EncryptedSession(SessionInterface):
         """ Serialize the session variable back to json and store it in a session cookie client-side. 
         This function is automatically executed by Flask after the invokation of index().
         """
+        print("Calls save_session")
         session_json = json.dumps(session) # This will be: '{"u": "tester"}' for the page below
         session_json = session_json.encode()
         mac = mh5(SECRET_KEY + session_json)
@@ -113,10 +117,12 @@ def no_verify_code():
 @app.route("/<code>")
 def index(code):
     if not verify_code(code):
+        print("No verify codee")
         return redirect("/")
 
     if "u" not in session:
         session["u"] = "tester"
+    print(session["u"])
     if session["u"] == "admin":
         time = subprocess.check_output("/bin/flag")
     else:
