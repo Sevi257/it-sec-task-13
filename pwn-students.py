@@ -47,5 +47,6 @@ with requests.Session() as session:
     # Der Session cookie encoded tester also muss ich admin encoden mit MH5
     #
     # Step 4: Make a request with the modified cookie'''
+    session.cookies.set(name=COOKIE, value="asdf", domain="http://127.0.0.1:5000")
     r = session.get(url)
     print(r.text)
