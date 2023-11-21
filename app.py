@@ -116,13 +116,15 @@ def no_verify_code():
 
 @app.route("/<code>")
 def index(code):
+    print("hello 1233")
     if not verify_code(code):
         print("No verify codee")
         return redirect("/")
 
-    if "u" not in session:
-        session["u"] = "tester"
     print(session["u"])
+    if "u" not in session:
+        print("Tester")
+        session["u"] = "tester"
     if session["u"] == "admin":
         time = subprocess.check_output("/bin/flag")
     else:
