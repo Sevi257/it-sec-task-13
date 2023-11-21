@@ -14,7 +14,7 @@ except ImportError:
     print("verify_code not available!")
     # Replace verfiy_code with a mock function
     # allowing students to run the code locally
-    verify_code = lambda x: True
+    verify_code = True
 
 # App metadata
 if not os.path.exists('app-secret.key'):
