@@ -22,7 +22,7 @@ def mh5(x):
 
 
 # URL of the target server
-url = "http://127.0.0.1:5000"
+url = "http://127.0.0.1:8080"
 
 with requests.Session() as session:
     r = session.get(url)
