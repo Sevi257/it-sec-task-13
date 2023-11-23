@@ -27,22 +27,14 @@ url = "http://127.0.0.1:8080"
 with requests.Session() as session:
     r = session.get(url)
     original_cookie = session.cookies[COOKIE]
+    # ceef72fd7b7d
     print(original_cookie)
     #Add some padding or something
-    secret_key = bytes(original_cookie[:8].encode())
     test = '{"u": "admin"}'.encode()
-    mac = mh5(secret_key + test)
-    final = mac.hex() + test.hex()
-    test2 = bytes.fromhex(final)
-    mac, session_data = test2[:MAC_SIZE], test2[MAC_SIZE:]
-    mac_p = mh5(secret_key + test)
-    if mac_p == mac:
-        print("Success")
-    else:
-        print("Failure")
-        print(f"Integrity check failed {mac} {mac_p}")
-    print(final)
-    session.cookies.set(name=COOKIE, value=final, domain="http://127.0.0.1:8080")
+    mac = mh5(test)
+
+    print(test)
+    session.cookies.set(name=COOKIE, value=test, domain="http://127.0.0.1:8080")
     print(f'Values: {session.cookies.values()} and Keys: {session.cookies.keys()}')
     # 71a15f407b2275223a2022746573746572227d
     # 71a15f407b2275223a2022746573746572227d
