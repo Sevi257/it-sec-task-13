@@ -33,7 +33,7 @@ with requests.Session() as session:
     test = '{"u": "admin"}'.encode()
     mac = mh5(test)
 
-    print(mac)
+    print(mac.hex())
     session.cookies.set(name=COOKIE, value=test, domain="http://127.0.0.1:8080")
     print(f'Values: {session.cookies.values()} and Keys: {session.cookies.keys()}')
     # 71a15f407b2275223a2022746573746572227d
