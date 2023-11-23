@@ -31,7 +31,7 @@ with requests.Session() as session:
     # 3c2d80f1 -> Admin Value
     # ceef36cffa8c brauche ich noch
 
-    print(bytes(original_cookie))
+    print(bytes(original_cookie.encode()))
     #Add some padding or something
     test = '{"u": "admin"}'.encode()
     mac = mh5(test)
