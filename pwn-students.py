@@ -27,8 +27,11 @@ url = "http://127.0.0.1:8080"
 with requests.Session() as session:
     r = session.get(url)
     original_cookie = session.cookies[COOKIE]
-    # ceef72fd7b7d
-    print(original_cookie)
+    # ceef72fd7b7d -> Tester Value -> Muss das selbe sein
+    # 3c2d80f1 -> Admin Value
+    # ceef36cffa8c brauche ich noch
+
+    print(bytes(original_cookie))
     #Add some padding or something
     test = '{"u": "admin"}'.encode()
     mac = mh5(test)
