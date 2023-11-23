@@ -42,7 +42,7 @@ with requests.Session() as session:
         print("Failure")
         print(f"Integrity check failed {mac} {mac_p}")
     print(final)
-    session.cookies.set(name=COOKIE, value=final, domain="http://127.0.0.1:5000")
+    session.cookies.set(name=COOKIE, value=final, domain="http://127.0.0.1:8080")
     print(f'Values: {session.cookies.values()} and Keys: {session.cookies.keys()}')
     # 71a15f407b2275223a2022746573746572227d
     # 71a15f407b2275223a2022746573746572227d
