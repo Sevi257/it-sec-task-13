@@ -7,14 +7,6 @@ import os
 
 from flask.sessions import SessionInterface, SessionMixin
 
-try:
-
-    from scoreboard_util import verify_code
-except ImportError:
-    print("verify_code not available!")
-    # Replace verfiy_code with a mock function
-    # allowing students to run the code locally
-    verify_code = lambda x: True
 
 # App metadata
 if not os.path.exists('app-secret.key'):
@@ -115,16 +107,10 @@ The time is:
 </html>
 """
 
-@app.route("/")
-def no_verify_code():
-    return "Please access this page via the link on the scoreboard!"
 
 @app.route("/<code>")
 def index(code):
     print("hello 1233")
-    if not verify_code(code):
-        print("No verify codee")
-        return redirect("/")
 
     print("Session: ", session["u"])
     if "u" not in session:
