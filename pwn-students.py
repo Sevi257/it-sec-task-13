@@ -27,6 +27,7 @@ url = "http://127.0.0.1:5000"
 with requests.Session() as session:
     r = session.get(url)
     original_cookie = session.cookies[COOKIE]
+    print(original_cookie)
     #Add some padding or something
     secret_key = bytes(original_cookie[:8].encode())
     test = '{"u": "admin"}'.encode()
