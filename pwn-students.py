@@ -44,7 +44,7 @@ with requests.Session() as session:
 
     i = 0
     while True:
-        test_data = ('{\"u\": \"admin\", \"extra_data\": "' + str(i) + '"\"}').encode()
+        test_data = ('{"u": "admin", "extra_data": "' + str(i) + '"}').encode()
         test_mac = mh5(test_data)
         #print("Testmac: ", test_mac)
         if test_mac.hex() == mac:
