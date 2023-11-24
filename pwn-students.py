@@ -28,7 +28,8 @@ def mh5(x, mac):
     return state.to_bytes(length=MAC_SIZE, byteorder="big")
 
 
-url = "https://t13.itsec.sec.in.tum.de/950357d650d4fa78"
+#url = "https://t13.itsec.sec.in.tum.de/950357d650d4fa78"
+url = "127.0.0.1:8080"
 
 with requests.Session() as session:
     r = session.get(url)
@@ -56,7 +57,7 @@ with requests.Session() as session:
     testtest = json.loads(bytes.fromhex(test.hex()))
     print(testtest)
     test =  b"1111aaaa" + test
-    session.cookies.set(name=COOKIE, value=test.hex(), domain="https://t13.itsec.sec.in.tum.de/")
+    session.cookies.set(name=COOKIE, value=test.hex(), domain="https://127.0.0.1")
     print(f'Values: {session.cookies.values()} and Keys: {session.cookies.keys()}')
     r = session.get(url)
     print(r.text)
