@@ -29,7 +29,7 @@ def mh5(x, mac):
 
 
 #url = "https://t13.itsec.sec.in.tum.de/950357d650d4fa78"
-url = "127.0.0.1:5000"
+url = "http://127.0.0.1:5000"
 
 with requests.Session() as session:
     r = session.get(url)
