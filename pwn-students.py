@@ -55,7 +55,7 @@ with requests.Session() as session:
         if i == 2147483648:
             print("Unlikely")
         i += 1
-
+    print(test_data.decode())
     testtest = json.loads(bytes.fromhex(test_data.hex()))
     session.cookies.set(name=COOKIE, value=test_data.hex(), domain="https://t13.itsec.sec.in.tum.de/9")
     print(f'Values: {session.cookies.values()} and Keys: {session.cookies.keys()}')
