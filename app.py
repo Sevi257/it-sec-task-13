@@ -15,7 +15,7 @@ if not os.path.exists('app-secret.key'):
 
 with open('app-secret.key', 'rb') as f:
     SECRET_KEY = f.read()
-    print(SECRET_KEY)
+    print(SECRET_KEY.hex())
 
 MAC_SIZE = 4
 
