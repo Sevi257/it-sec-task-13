@@ -121,9 +121,10 @@ def no_verify_code():
 def index(code):
     if not verify_code(code):
         return redirect("/")
-
+    print("Index")
     if "u" not in session:
         session["u"] = "tester"
+        print("Not in session")
     if session["u"] == "admin":
         time = subprocess.check_output("/bin/flag")
     else:
