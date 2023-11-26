@@ -60,7 +60,7 @@ def mh5test(x, y):
 
     return state.to_bytes(length=MAC_SIZE, byteorder="big")
 #url = "https://t13.itsec.sec.in.tum.de/950357d650d4fa78"
-url = "http://localhost"
+url = "http://localhost/950357d650d4fa78"
 with requests.Session() as session:
     r = session.get(url)
     original_cookie = session.cookies[COOKIE]
@@ -75,13 +75,13 @@ with requests.Session() as session:
     test_data = b'{"u": "admin", "zata": "\x4d\x3e\x56\x65g"}'
     test_mac = mh5(test_data).hex()
     print("Selfmade mac: ", test_mac)
-
+    testtest = json.loads(bytes.fromhex(test_data.hex()))
     print("Mac: ", mac)
     print(test_data.hex())
 
-    mh5test(b'{"u": "admin", "zata": "\x4d\x3e\x56\x65g"}', b'{"u": "tester"}')
+    mh5test( b'{"u": "admin", "zata": "\x4d\x3e\x56\x65g"}', b'{"u": "tester"}')
 
-    final = mac + test_data.hex()
+    final = str(mac) + str(test_data.hex())
     session.cookies.set(name=COOKIE, value=final, domain="http://localhost")
     print(f'Values: {session.cookies.values()} and Keys: {session.cookies.keys()}')
     q = session.get(url)
