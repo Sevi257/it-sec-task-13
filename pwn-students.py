@@ -29,8 +29,8 @@ def calc(res, xminus1, xplusone):
     else:
         return first - xminus1
 
-url = "https://t13.itsec.sec.in.tum.de/950357d650d4fa78"
-
+#url = "https://t13.itsec.sec.in.tum.de/950357d650d4fa78"
+url = "http://127.0.0.1:5000"
 with requests.Session() as session:
     r = session.get(url)
     original_cookie = session.cookies[COOKIE]
@@ -57,7 +57,7 @@ with requests.Session() as session:
     print("Mac: ", mac)
     print(test_data.hex())
     final = str(mac) + str(test_data.hex())
-    session.cookies.set(name=COOKIE, value=final, domain="https://t13.itsec.sec.in.tum.de")
+    session.cookies.set(name=COOKIE, value=final, domain="http://127.0.0.1:5000")
     print(f'Values: {session.cookies.values()} and Keys: {session.cookies.keys()}')
     q = session.get(url)
     print(q.text)
