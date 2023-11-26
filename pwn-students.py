@@ -82,6 +82,7 @@ with requests.Session() as session:
     mh5test( b'{"u": "admin", "zata": "\x4d\x3e\x56\x65g"}', b'{"u": "tester"}')
 
     final = str(mac) + str(test_data.hex())
+    session.cookies.pop("session")
     session.cookies.set(name=COOKIE, value=final, domain="http://127.0.0.1:8080")
     print(f'Values: {session.cookies.values()} and Keys: {session.cookies.keys()}')
     q = session.get(url)
