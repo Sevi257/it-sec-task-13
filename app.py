@@ -59,12 +59,14 @@ class EncryptedSession(SessionInterface):
 
         # There is an active session. Check its integrity and use it.
         try:
+            print(session)
             data = bytes.fromhex(session)
             mac, session_data = data[:MAC_SIZE], data[MAC_SIZE:]
             mac_p = mh5(SECRET_KEY + session_data)
             if not mac == mac_p:
                 print(f"Integrity check failed {mac} {mac_p}")
                 return Session()
+            print("Hello68")
             session_data = json.loads(session_data)
             return Session(session_data)
         except:
