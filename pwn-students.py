@@ -42,22 +42,13 @@ with requests.Session() as session:
     print("MAC: ", mac)
     jsondump = original_cookie[8:]
 
-    i = 0
-    while True:
-        test_data = ('{"u": "admin", "extra_data": "' + str(i) + '"}').encode()
-        test_mac = mh5(test_data)
-        #print("Testmac: ", test_mac)
-        if test_mac.hex() == mac:
-            print(f"Collision found! i={i}, test_data={test_data}")
-            break
-        if i == 65536:
-            print("50%")
-        if i == 2147483648:
-            print("Unlikely")
-        i += 1
+    test_data = '{"u": "admin", "extra_data": ""}'.encode()
+    test_mac = mh5(test_data).hex()
+    print("Testmac: ", test_mac)
     print(test_data.decode())
     testtest = json.loads(bytes.fromhex(test_data.hex()))
-    session.cookies.set(name=COOKIE, value=test_data.hex(), domain="https://t13.itsec.sec.in.tum.de/9")
+    final = str(test_mac) + str(test_data.hex())
+    session.cookies.set(name=COOKIE, value=final, domain="https://t13.itsec.sec.in.tum.de/9")
     print(f'Values: {session.cookies.values()} and Keys: {session.cookies.keys()}')
     r = session.get(url)
     print(r.text)
