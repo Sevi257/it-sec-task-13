@@ -57,7 +57,7 @@ with requests.Session() as session:
     print("Mac: ", mac)
     print(test_data.hex())
     final = str(mac) + str(test_data.hex())
-    session.cookies.set(name=COOKIE, value=final, domain="http://127.0.0.1:5000")
+    session.cookies.set(name=COOKIE, value=final, domain="http://127.0.0.1")
     print(f'Values: {session.cookies.values()} and Keys: {session.cookies.keys()}')
     q = session.get(url)
     print(q.text)
