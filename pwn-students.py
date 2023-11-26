@@ -28,7 +28,37 @@ def calc(res, xminus1, xplusone):
         return first - xminus1 + 2**32
     else:
         return first - xminus1
+def mh5test(x, y):
+    state = 0
 
+    # Apply padding
+    x = x + b"\x80"  # Terminate message with 0x80
+    x = x + (MAC_SIZE - (len(x) % MAC_SIZE)) * b"\x00"
+    y = y + b"\x80"  # Terminate message with 0x80
+    y = y + (MAC_SIZE - (len(y) % MAC_SIZE)) * b"\x00"
+    diff = 0
+    # print(x)
+    state2 = 0
+
+    # Split into chunks
+    for i in range(0, len(x), MAC_SIZE):
+        print(x[i:i + MAC_SIZE])
+        print(y[i:i + MAC_SIZE])
+        state += int.from_bytes(x[i:i + MAC_SIZE], byteorder="big")
+        state2 += int.from_bytes(y[i:i + MAC_SIZE], byteorder="big")
+        diff += (int.from_bytes(x[i:i + MAC_SIZE], byteorder="big") - int.from_bytes(y[i:i + MAC_SIZE],
+                                                                                     byteorder="big"))
+        print(str(diff) + "Diff")
+        state &= (2**32 - 1)
+        state2 &= (2**32 - 1)
+        print("STATE :" + str(state))
+        print("STA   :" + str(state2))
+        print("STAT  :" + str((state2 + diff) & 2 ** 32 - 1))
+        print(hex(int(diff)) + " final diff")
+
+    #mod = y + diff.to_bytes(length=MAC_SIZE, byteorder="big", )
+
+    return state.to_bytes(length=MAC_SIZE, byteorder="big")
 #url = "https://t13.itsec.sec.in.tum.de/950357d650d4fa78"
 url = "http://127.0.0.1:5000"
 with requests.Session() as session:
@@ -39,14 +69,6 @@ with requests.Session() as session:
     # ceef36cffa8c brauche ich noch
 
     print(original_cookie.encode())
-    #Add some padding or something
-    #71a15f40 7b2275223a2022746573746572227d
-    #data = mac.hex() + session_json.hex()
-    #mac.hex() = 4Bytes ersten 4 Bytes sind mac und danach ist encoded mit Tester
-    # Man muss das json objekt so erstellen dass es zu dem selben Mac auswertet und dass es insgesamt der gleiche Hash ist
-    # erstelle das richtige mac_p
-    # mh5(secretkey + sessiondata) = mac
-    # '{"u": "admin", }'
     mac = original_cookie[:8]
     print("Original Mac: ", mh5(b'{"u": "tester"}').hex())
 
@@ -56,8 +78,11 @@ with requests.Session() as session:
     testtest = json.loads(bytes.fromhex(test_data.hex()))
     print("Mac: ", mac)
     print(test_data.hex())
+
+    mh5test(b'{"u": "admin", "zata": "\x4d\x3e\x56\x65g"}', b'{"u": "tester"}')
+
     final = str(mac) + str(test_data.hex())
-    session.cookies.set(name=COOKIE, value=final, domain="http://127.0.0.1")
+    session.cookies.set(name=COOKIE, value=final, domain="http://127.0.0.1:5000")
     print(f'Values: {session.cookies.values()} and Keys: {session.cookies.keys()}')
     q = session.get(url)
     print(q.text)

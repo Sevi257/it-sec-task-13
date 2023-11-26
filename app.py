@@ -7,6 +7,13 @@ import os
 
 from flask.sessions import SessionInterface, SessionMixin
 
+try:
+    from scoreboard_util import verify_code
+except ImportError:
+    print("verify_code not available!")
+    # Replace verfiy_code with a mock function
+    # allowing students to run the code locally
+    verify_code = lambda x: True
 
 # App metadata
 if not os.path.exists('app-secret.key'):
@@ -15,32 +22,34 @@ if not os.path.exists('app-secret.key'):
 
 with open('app-secret.key', 'rb') as f:
     SECRET_KEY = f.read()
-    print(SECRET_KEY.hex())
 
 MAC_SIZE = 4
+
 
 def mh5(x):
     state = 0
 
     # Apply padding
-    x = x + b"\x80" # Terminate message with 0x80
+    x = x + b"\x80"  # Terminate message with 0x80
     x = x + (MAC_SIZE - (len(x) % MAC_SIZE)) * b"\x00"
 
     # Split into chunks
-    for i in range(0,len(x), MAC_SIZE):
-        state += int.from_bytes(x[i:i+MAC_SIZE], byteorder="big")
-        state &= (2**32 - 1)
+    for i in range(0, len(x), MAC_SIZE):
+        state += int.from_bytes(x[i:i + MAC_SIZE], byteorder="big")
+        state &= (2 ** 32 - 1)
     return state.to_bytes(length=MAC_SIZE, byteorder="big")
+
 
 # Who needs integrity protection? I heared that encrypting all information
 # with AES-CBC and store it in a session cookie client-side is fine!
 class Session(dict, SessionMixin):
     pass
 
+
 class EncryptedSession(SessionInterface):
-    
+
     def open_session(self, app, request):
-        """ Read the contents of the session cookie and restore the contents of the session variable. 
+        """ Read the contents of the session cookie and restore the contents of the session variable.
         This function is automatically executed by Flask before the invokation of index().
         """
         session = request.cookies.get("session")
@@ -64,17 +73,18 @@ class EncryptedSession(SessionInterface):
             traceback.print_exc()
             # The active session has some problem: Create a new one, discard the old data...
             return Session()
-                
+
     def save_session(self, app, session, response):
-        """ Serialize the session variable back to json and store it in a session cookie client-side. 
+        """ Serialize the session variable back to json and store it in a session cookie client-side.
         This function is automatically executed by Flask after the invokation of index().
         """
-        session_json = json.dumps(session) # This will be: '{"u": "tester"}' for the page below
+        session_json = json.dumps(session)  # This will be: '{"u": "tester"}' for the page below
         session_json = session_json.encode()
         mac = mh5(SECRET_KEY + session_json)
         data = mac.hex() + session_json.hex()
         domain = self.get_cookie_domain(app)
         response.set_cookie("session", data, httponly=True, domain=domain, path="/", samesite="Strict")
+
 
 app = Flask(__name__)
 app.session_interface = EncryptedSession()
@@ -100,17 +110,21 @@ The time is:
 """
 
 
+@app.route("/")
+def no_verify_code():
+    return "Please access this page via the link on the scoreboard!"
+
+
 @app.route("/<code>")
 def index(code):
+    if not verify_code(code):
+        return redirect("/")
 
     if "u" not in session:
         session["u"] = "tester"
-
     if session["u"] == "admin":
-        print("flag")
         time = subprocess.check_output("/bin/flag")
     else:
-        print("date")
         time = subprocess.check_output("/bin/date")
 
     return render_template_string(page, time=time.decode())
