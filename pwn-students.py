@@ -30,7 +30,6 @@ def calc(res, xminus1, xplusone):
         return first - xminus1
 
 url = "https://t13.itsec.sec.in.tum.de/950357d650d4fa78"
-url = "h"
 
 with requests.Session() as session:
     r = session.get(url)
@@ -49,10 +48,9 @@ with requests.Session() as session:
     # mh5(secretkey + sessiondata) = mac
     # '{"u": "admin", }'
     mac = original_cookie[:8]
-    print("Original Mac: ", mac)
-    #test_data = b'{"u": "admin", "!~A@!g!a": "\x2e\x28\x3b\x6a"}\x80'
-    #test_data = test_data + (MAC_SIZE - (len(test_data) % MAC_SIZE)) * b"\x00"
-    test_data = b'{"u": "admin", "c/ta": "\x49\x39\x2c\x2ag"}'
+    print("Original Mac: ", mh5(b'{"u": "tester"}').hex())
+
+    test_data = b'{"u": "admin", "zata": "\x4d\x3e\x56\x65g"}'
     test_mac = mh5(test_data).hex()
     print("Selfmade mac: ", test_mac)
     testtest = json.loads(bytes.fromhex(test_data.hex()))
