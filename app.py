@@ -122,6 +122,7 @@ def index(code):
     if not verify_code(code):
         return redirect("/")
     print("Index")
+    print(session["u"], "Sessionindex")
     if "u" not in session:
         session["u"] = "tester"
         print("Not in session")
